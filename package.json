@@ -1,0 +1,40 @@
+{
+  "name": "@hubiinetwork/omphalos-error-utils",
+  "version": "1.0.0",
+  "description": "NodeJS module with some common error handling code",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "nyc mocha lib/**/*.spec.js --exit",
+    "test:watch": "npm run test -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hubiinetwork/omphalos-error-utils.git"
+  },
+  "keywords": [
+    "nodejs",
+    "error",
+    "http-error",
+    "nested-error",
+    "hubii",
+    "nahmii"
+  ],
+  "author": "Morten Fjeldstad <morten@hubii.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hubiinetwork/omphalos-error-utils/issues"
+  },
+  "homepage": "https://github.com/hubiinetwork/omphalos-error-utils#readme",
+  "devDependencies": {
+    "@hubiinetwork/eslint-config": "github:hubiinetwork/eslint-config",
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.3.0",
+    "sinon-express-mock": "^2.2.0"
+  }
+}
