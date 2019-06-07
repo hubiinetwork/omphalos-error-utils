@@ -12,14 +12,15 @@ This library contains a set of common error handling related utilities.
 
 ```javascript
 
-    const {HttpError, NestedError, errorHandler} = require('hubiinetwork/omphalos-error-utils');
+    const {HttpError, NestedError, defaultHandler, errorHandler} = require('hubiinetwork/omphalos-error-utils');
 
 ```
 
 - HttpError - Error class that has an error code
 - NestedError - Error class that contains an inner exception
+- defaultHandler - express middleware for generating a 404 error
 - errorHandler - express middleware for transforming an error into a JSON
-  response. Has support for HttpError.
+  response. Has support for HttpError
 
 ### Examples
 
@@ -32,17 +33,19 @@ a `code` property. Use it in conjunction with express and the
 ```javascript
 
     const express = require('express');
-    const {HttpError, errorHandler} = require('hubiinetwork/omphalos-error-utils');
+    const {HttpError, defaultHandler, errorHandler} = require('hubiinetwork/omphalos-error-utils');
 
     const app = express();
-    
-    // <Add routing and controllers here...>
 
-    // At the end of the registrations register the default handler and
-    // error handler
-    app.use((req, res, next) => {
-        next(new HttpError(404, 'These are not the pages you are looking for...'));
+    // All requests to /failure will result in a 500 error.
+    app.all('/failure', function (req, res, next) {
+        next(new HttpError(500, '...is always an option'));
     });
+
+    // Unhandled requests gets converted to a 404 HttpError
+    app.use(defaultHandler);
+
+    // Transforms reported errors to HTTP errors with JSON payload
     app.use(errorHandler);
 
 ```
