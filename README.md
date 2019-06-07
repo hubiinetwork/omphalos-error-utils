@@ -12,7 +12,7 @@ This library contains a set of common error handling related utilities.
 
 ```javascript
 
-    const {HttpError, NestedError, defaultHandler, errorHandler} = require('hubiinetwork/omphalos-error-utils');
+    const {HttpError, NestedError, defaultHandler, errorHandler} = require('@hubiinetwork/omphalos-error-utils');
 
 ```
 
@@ -33,7 +33,7 @@ a `code` property. Use it in conjunction with express and the
 ```javascript
 
     const express = require('express');
-    const {HttpError, defaultHandler, errorHandler} = require('hubiinetwork/omphalos-error-utils');
+    const {HttpError, defaultHandler, errorHandler} = require('@hubiinetwork/omphalos-error-utils');
 
     const app = express();
 
@@ -60,7 +60,7 @@ of course also be caught and rethrown in another NestedError.
 
 ```javascript
 
-    const {NestedError} = require('hubiinetwork/omphalos-error-utils');
+    const {NestedError} = require('@hubiinetwork/omphalos-error-utils');
 
     function thisThrowsError() {
         throw new Error('Something went wrong');
