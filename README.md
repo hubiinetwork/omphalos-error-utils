@@ -161,12 +161,13 @@ Gives something like this:
 
  This feature will terminate execution by calling `process.exit()`, but only after a brief delay to allow for log-buffers to flush. `exit()` is called to ensure that the application does not hang while waiting for some async task to respond.
 
- Enable this feature by calling it's initialization function. The function should not be called more than once for each application.
- It will throw if it is.
+ Enable this feature by calling it's initialization function. The function should not be called more than once for each application. It will throw if it is.
+ The initialization function takes a logger function as input. The logger function is injected into the handler and must be able to log simple strings.
 
 ```javascript
-    // Enable the unhandled errors handler
-    const {NestedError} = require('@hubiinetwork/omphalos-error-utils');
+    // Enable the unhandled errors handler while injecting logger function
+    const { initUnhandledErrorsHandler } = require('@hubiinetwork/omphalos-error-utils');
+    initUnhandledErrorsHandler(console.log);
 ```
 Of course, the feature will also be enabled if any exported `omphalos-error-utils` symbols happens to be used.
 
