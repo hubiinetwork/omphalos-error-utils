@@ -169,9 +169,8 @@ Gives something like this:
     const { initUnhandledErrorsHandler } = require('@hubiinetwork/omphalos-error-utils');
     initUnhandledErrorsHandler(console.log);
 ```
-Of course, the feature will also be enabled if any exported `omphalos-error-utils` symbols happens to be used.
 
-**NOTE**: Unhandled exceptions that originates in some async task do not carry a stack trace with good information by itself. Please make an habit of always catching potential Errors from external (i.e. async call to a library) async tasks and rethrow the error wrapped in a `NestedError`. That ensures that the stack trace includes information of both where the error originated and the place in the application code the call was made.
+**NOTE**: Unhandled exceptions that originates in some async task do not carry a stack trace that ties the task to the application. Please make an habit of always catching potential Errors from external (i.e. async call to a library) async tasks and rethrow the error wrapped in a `NestedError`. That ensures that the stack trace includes information of both where the error originated and the place in the application code the call was made.
 
 See above of how `NestedError` is used.
 
