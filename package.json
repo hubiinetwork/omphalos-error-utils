@@ -1,6 +1,6 @@
 {
   "name": "@hubiinetwork/omphalos-error-utils",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "NodeJS module with some common error handling code",
   "main": "index.js",
   "scripts": {
@@ -33,6 +33,7 @@
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
+    "proxyquire": "^2.1.3",
     "sinon": "^7.3.2",
     "sinon-chai": "^3.3.0",
     "sinon-express-mock": "^2.2.0"

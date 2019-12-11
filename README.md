@@ -21,13 +21,14 @@ This library contains a set of common error handling related utilities.
 - defaultHandler - express middleware for generating a 404 error
 - errorHandler - express middleware for transforming an error into a JSON
   response. Has support for HttpError
+- unhandled-errors-handler - Handles uncaught exceptions and rejections
 
 ### Examples
 
 **Express Error Handling for REST APIs**
 
-The `HttpError` class extends the regular JavaScript Error class by adding 
-a `code` property. Use it in conjunction with express and the 
+The `HttpError` class extends the regular JavaScript Error class by adding
+a `code` property. Use it in conjunction with express and the
 `errorHandler` middleware.
 
 ```javascript
@@ -52,10 +53,10 @@ a `code` property. Use it in conjunction with express and the
 
 **Nested Errors**
 
-The `NesterError` class extends the regular JavaScript Error class by 
-adding an `innerException` property. This is typically handy when you 
+The `NesterError` class extends the regular JavaScript Error class by
+adding an `innerException` property. This is typically handy when you
 catch and rethrow exceptions and need to keep the original error as well
-as add context as to where the exception happened. NestedErrors can 
+as add context as to where the exception happened. NestedErrors can
 of course also be caught and rethrown in another NestedError.
 
 ```javascript
@@ -147,6 +148,31 @@ Gives something like this:
   }
 }
 ```
+**Unhandled errors handler**
+
+ This is an feature that does some rudimentary error handling of unhandled exceptions and rejections.
+
+ * Unhandled errors are converted to a standard format before handling
+ * Errors are expanded, logged and written to the console
+ * A brief delay is inserted to allow output buffers to be flushed
+ * The application is terminated by call to `process.exit()`
+
+ It is assumed by convention that uncaught exceptions and rejections are a result of errors that are either intensionally or un-intensionally not handled because there is no known way to proceed execution in a known state. The only sane way to handle the error is to terminate the application and let Kubernetes start it again.
+
+ This feature will terminate execution by calling `process.exit()`, but only after a brief delay to allow for log-buffers to flush. `exit()` is called to ensure that the application does not hang while waiting for some async task to respond.
+
+ Enable this feature by calling it's initialization function. The function should not be called more than once for each application. It will throw if it is.
+ The initialization function takes a logger function as input. The logger function is injected into the handler and must be able to log simple strings.
+
+```javascript
+    // Enable the unhandled errors handler while injecting logger function
+    const { initUnhandledErrorsHandler } = require('@hubiinetwork/omphalos-error-utils');
+    initUnhandledErrorsHandler(console.log);
+```
+
+**NOTE**: Unhandled exceptions that originates in some async task do not carry a stack trace that ties the task to the application. Please make an habit of always catching potential Errors from external (i.e. async call to a library) async tasks and rethrow the error wrapped in a `NestedError`. That ensures that the stack trace includes information of both where the error originated and the place in the application code the call was made.
+
+See above of how `NestedError` is used.
 
 ## Contributing
 
